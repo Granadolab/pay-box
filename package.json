@@ -1,0 +1,26 @@
+{
+  "name": "api.sistema.caja",
+  "version": "1.0.0",
+  "description": "Systems for operations at pay box at market",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "lint": "eslint"
+  },
+  "author": "Bryan Granado",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/boom": "^9.1.4",
+    "boom": "^7.3.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "joi": "^17.6.0",
+    "mariadb": "^2.5.5",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.16.1",
+    "sqlite3": "^5.0.2"
+  }
+}
