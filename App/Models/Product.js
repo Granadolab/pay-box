@@ -12,6 +12,11 @@ class Product extends Model {
 Product.init({
     //! Important : Mantain order of init
         // Model attributes are defined here
+        id: {
+            type: DataTypes.NUMBER,
+            allowNull: false,
+            primaryKey:true
+        },
         name: {
         type: DataTypes.STRING,
         allowNull: false

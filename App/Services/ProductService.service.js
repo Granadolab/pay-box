@@ -16,7 +16,6 @@ class ProductService {
     }
 
     async store(request){
-
         const newproduct = await Product.create({
              name: request.name ,
              price:request.price,
@@ -25,15 +24,40 @@ class ProductService {
         });
         return newproduct 
     }
-   async show(){
 
+    async show(id){
+        const project = await Product.findOne({ where: { id: id } });
+        return project;
     }
    
-   async update(){
+   async update(request, id){
 
+       const updaterequest =  await Product.update({
+            name: request.name,
+            price: request.price,
+            status_id:request.status_id,
+            category_id:request.category_id
+            },
+            {
+            where: {
+            id: id
+            }
+        });
+
+        if(updaterequest == 1){
+          return  request;
+        }
+        return {message:'This element has updated'};
     }
-   async delete(){
 
+   async delete(id){
+        await Product.destroy({
+            where: {
+            id: id
+            }
+        });
+
+        return {message:'This element has deleted successfull'};
     }
 }
 
