@@ -10,13 +10,7 @@ class Product extends Model {
 }
 
 Product.init({
-    //! Important : Mantain order of init
-        // Model attributes are defined here
-        id: {
-            type: DataTypes.NUMBER,
-            allowNull: false,
-            primaryKey:true
-        },
+
         name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -34,16 +28,7 @@ Product.init({
         category_id: {
         type: DataTypes.NUMBER,
         // allowNull:true
-        },
-        created_at: {
-        type: DataTypes.DATE,
-        allowNull:true
-        },
-        updated_at: {
-        type: DataTypes.DATE,
-        allowNull:true
-        },
-    
+        }
     },
     {
         sequelize,
