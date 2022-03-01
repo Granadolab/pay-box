@@ -2,6 +2,8 @@ const express = require('express');
 
 const validatorHandle = require('../App/Middlewares/ValidatorHandler');
 
+const {verifyToken} = require('../App/Middlewares/Auth');
+
 const {createCategorySchema, updateCategorySchema, showCategorySchema} = require('../App/Schemas/category_schema');
 
 const CategoryService = require('../App/Services/CategoryService.service');
@@ -17,21 +19,20 @@ const service = new CategoryService();
         res.json(category);
   });
   
-  router.post('/',validatorHandle(createCategorySchema, 'body'), async (req, res) => {
+  router.post('/',validatorHandle(createCategorySchema, 'body'), verifyToken, async (req, res) => {
       const {body} = req;
-      console.log(body);
       const store = await service.store(body);
       res.json(store);
   });
   
-  router.get('/show/:id', validatorHandle(showCategorySchema, 'params'),  async (req, res) => {
+  router.get('/show/:id', validatorHandle(showCategorySchema, 'params'), verifyToken,  async (req, res) => {
   
     const {id} = req.params;
     const show = await service.show(id);
     res.json(show);
   });
   
-  router.put('/update/:id',validatorHandle(updateCategorySchema, 'body'), async (req, res) => {
+  router.put('/update/:id',validatorHandle(updateCategorySchema, 'body'), verifyToken, async (req, res) => {
   
     const {id} = req.params;
     const {body} = req;
@@ -40,7 +41,7 @@ const service = new CategoryService();
   });
   
   
-  router.delete('/delete/:id',validatorHandle(showCategorySchema, 'params'), async (req, res) => {
+  router.delete('/delete/:id',validatorHandle(showCategorySchema, 'params'), verifyToken, async (req, res) => {
   
     const {id} = req.params;
     const deleteElement = await service.delete(id);

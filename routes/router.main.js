@@ -6,6 +6,7 @@ const StatusRouter = require('./status.router.js');
 const TypePayRouter = require('./typepay.router.js');
 const UserRouter = require('./user.router.js');
 const AuthRouter = require('./auth.router');
+const OrderRouter = require('./order.router');
 
 const  routerApi = (app) => {
 
@@ -17,6 +18,7 @@ const  routerApi = (app) => {
     router.use('/typepay', TypePayRouter);
     router.use('/users', UserRouter);
     router.use('/auth', AuthRouter);
+    router.use('/orders', OrderRouter);
     
 }
 

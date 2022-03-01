@@ -16,7 +16,7 @@ class UserService {
 
     async index()
     {
-        const user = await User.findAll();
+        const user = await User.findAll({attributes:['id','name', 'dni', 'email', 'phone']});
         return user;
     }
 

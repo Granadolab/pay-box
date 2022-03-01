@@ -2,6 +2,7 @@ const express = require('express');
 
 const validatorHandle = require('../App/Middlewares/ValidatorHandler');
 
+
 const {createUserSchema,loginUserSchema, updateUserSchema, showUserSchema} = require('../App/Schemas/user_schema');
 
 const RegisterService = require('../App/Services/Auth/RegisterService.service');
@@ -11,7 +12,6 @@ const router = express.Router();
 
 const service = new RegisterService();                           
 const login = new LoginService();                           
-
 
 
        

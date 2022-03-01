@@ -2,6 +2,8 @@ const express = require('express');
 
 const validatorHandle = require('../App/Middlewares/ValidatorHandler');
 
+const {verifyToken} = require('../App/Middlewares/Auth');
+
 const {createTypePaySchema, updateTypePaySchema, showTypePaySchema} = require('../App/Schemas/type_pay_schema');
 
 const TypePayService = require('../App/Services/TypePayService.service');
@@ -17,21 +19,20 @@ const service = new TypePayService();
         res.json(status);
   });
   
-  router.post('/',validatorHandle(createTypePaySchema, 'body'), async (req, res) => {
+  router.post('/',validatorHandle(createTypePaySchema, 'body'), verifyToken,  async (req, res) => {
       const {body} = req;
-      console.log(body);
       const store = await service.store(body);
       res.json(store);
   });
   
-  router.get('/show/:id', validatorHandle(showTypePaySchema, 'params'),  async (req, res) => {
+  router.get('/show/:id', validatorHandle(showTypePaySchema, 'params'), verifyToken,   async (req, res) => {
   
     const {id} = req.params;
     const show = await service.show(id);
     res.json(show);
   });
   
-  router.put('/update/:id',validatorHandle(updateTypePaySchema, 'body'), async (req, res) => {
+  router.put('/update/:id',validatorHandle(updateTypePaySchema, 'body'), verifyToken,  async (req, res) => {
   
     const {id} = req.params;
     const {body} = req;
@@ -40,7 +41,7 @@ const service = new TypePayService();
   });
   
   
-  router.delete('/delete/:id',validatorHandle(showTypePaySchema, 'params'), async (req, res) => {
+  router.delete('/delete/:id',validatorHandle(showTypePaySchema, 'params'), verifyToken,  async (req, res) => {
   
     const {id} = req.params;
     const deleteElement = await service.delete(id);
