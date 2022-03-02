@@ -1,4 +1,16 @@
 const Joi = require('joi');
+const User = require('../Models/User');
+
+//! Declare fuction to used for compare 
+const finduser = async (email) => {
+
+  const user = await User.findOne({ where: { email: email }});
+    if (user) {
+        return json({message: 'This email has been in use'});
+    }
+};
+
+
 
 const id = Joi.number();
 const name = Joi.string().min(3).max(100);
@@ -13,6 +25,7 @@ const createUserSchema = Joi.object({
   email    : email.required(),
   password : password.required(),
   phone    : phone.required(),
+  
 });
 
 const loginUserSchema = Joi.object({
@@ -31,6 +44,8 @@ const updateUserSchema = Joi.object({
 const showUserSchema = Joi.object({
   id: id.required(),
 });
+
+
 
 
 module.exports = {

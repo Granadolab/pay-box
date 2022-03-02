@@ -1,8 +1,12 @@
 const { DataTypes, Model } = require('sequelize');
 const {sequelize} = require('../../Databases/db');
+const jwt = require("jsonwebtoken");
+const config = process.env;
+
 
 class User extends Model{
     //* below put code for catgory
+
 }
 
 User.init(

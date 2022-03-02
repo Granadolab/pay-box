@@ -1,5 +1,7 @@
 const Order = require('../Models/Order');
 const ProductOrder = require('../Models/ProducfOrder');
+const Invoice = require('../Models/Invoice');
+const User = require('../Models/User');
 class OrderService {
     
 
@@ -25,21 +27,36 @@ class OrderService {
      * @returns //!Order
      */
 
-    async store(request)
+    async store(req)
     {
+        const request = req.body;
+        const idUser = req.user.user.id;
         const neworder = await Order.create({
             type_pay_id:request.type_pay_id,
             status_id:request.status_id,
             amount:request.amount
        });
+
+    
        //* Save within of ProductOrder
        request.products.forEach(element => {
+        // console.log(element.product_id, 'SOY ELEMENT ESPECIFICAMENTE PRODUCT_ID');
             ProductOrder.create({
             order_id:neworder.id,
             product_id:element.product_id,
             quantity_product:element.quantity
           })
        });
+
+       //*save invoice of
+       Invoice.create({
+        name_buyer:request.name_buyer,
+        address_buyer:request.address_buyer,
+        dni_buyer:request.dni_buyer,
+        phone_buyer:request.phone_buyer,
+        order_id:neworder.id,
+        user_id:idUser,
+       })
 
        return neworder 
     }
@@ -62,8 +79,11 @@ class OrderService {
      * @returns //! true or false
      */
 
-    async update(request, id)
+    async update(req, id)
     {
+        const request = req.body;
+        const idUser = req.user.user.id;
+
         const updateorder =  await Order.update({
             type_pay_id:request.type_pay_id,
             status_id:request.status_id,
@@ -75,9 +95,40 @@ class OrderService {
             }
         });
 
+           //    //* update within of ProductOrder
+       request.products.forEach(element => {
+        // console.log(element.product_id, 'SOY ELEMENT ESPECIFICAMENTE PRODUCT_ID');
+            ProductOrder.update({
+            order_id:neworder.id,
+            product_id:element.product_id,
+            quantity_product:element.quantity
+          },
+          {
+            where: {
+            order_id: id
+            }
+          })
+       });
+
+
+       //*save invoice of
+       Invoice.update({
+        name_buyer:request.name_buyer,
+        address_buyer:request.address_buyer,
+        dni_buyer:request.dni_buyer,
+        phone_buyer:request.phone_buyer,
+        order_id:neworder.id,
+        user_id:idUser,
+       },{
+        where: {
+            order_id: id
+            }
+       })
+
         if(updateorder == 1){
           return  request;
         }
+
         return {message:'This element has updated'};
     }
 
@@ -89,6 +140,9 @@ class OrderService {
 
     async delete(id)
     {
+        await ProductOrder.destroy({
+            where:{order_id: id}
+        });
         await Order.destroy({
             where: {
             id: id

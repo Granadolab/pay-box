@@ -12,16 +12,19 @@ const router = express.Router();
 
 const service = new OrderService();
 
+const User = require('../App/Models/User');
+
 
 
   router.get('/',verifyToken, async (req, res) => {
-        const status = await service.index();
+  
+       const status = await service.index();
         res.json(status);
   });
   
   router.post('/',validatorHandle(createOrderSchema, 'body'), verifyToken,  async (req, res) => {
-      const {body} = req;
-      const store = await service.store(body);
+      
+      const store = await service.store(req);
       res.json(store);
   });
   
@@ -35,8 +38,7 @@ const service = new OrderService();
   router.put('/update/:id',validatorHandle(updateOrderSchema, 'body'), verifyToken,  async (req, res) => {
   
     const {id} = req.params;
-    const {body} = req;
-    const update = await service.update(body,id);
+    const update = await service.update(req,id);
     res.json(update);
   });
   

@@ -9,8 +9,6 @@ class Order extends Model{
 
 }
 
-
-
 Order.init(
     {
         type_pay_id: {
@@ -38,4 +36,6 @@ Order.hasOne(Status, { as: 'status', foreignKey: 'id', targetKey: 'status_id'});
 Order.hasOne(TypePay, { as: 'typepay', foreignKey: 'id', targetKey: 'type_pay_id'});
 Order.hasMany(ProductOrder, { as: 'productOrder', foreignKey: 'order_id', targetKey: 'id'});
 Order.belongsToMany(Product, { as: 'products', through: ProductOrder, foreignKey: 'order_id', otherKey: 'id' });
+
+
 module.exports=Order;
